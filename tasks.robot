@@ -61,7 +61,7 @@ Send email
     Authorize    account=${secret}[account]    password=${secret}[password]
     ${CurrentDate}    Get Current Date
     Send Message    sender=${secret}[account]
-    ...    recipients=greufabessauddu-1760@yopmail.com
+    ...    recipients=hitsmit@yopmail.com
     ...    subject=ZHIYUAN SUN RPA ${CurrentDate}
     ...    body=This is the body of the email.
     ...    attachments=${OUTPUT_DIR}${/}sales_results.pdf
