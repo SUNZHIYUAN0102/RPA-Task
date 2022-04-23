@@ -4,6 +4,9 @@ Library           RPA.Browser.Selenium    auto_close=${FALSE}
 Library           RPA.HTTP
 Library           RPA.Excel.Files
 Library           RPA.PDF
+Library           RPA.Email.ImapSmtp    smtp_server=smtp.gmail.com    smtp_port=587
+Library           DateTime
+Library           RPA.Robocorp.Vault
 
 *** Tasks ***
 Insert the sales data for the week and export it as a PDF
@@ -13,6 +16,7 @@ Insert the sales data for the week and export it as a PDF
     Fill the form using the data from the Excel file
     Collect the results
     Export the table as a PDF
+    Send email
     [Teardown]    Log out and close the browser
 
 *** Keywords ***
@@ -51,6 +55,16 @@ Export the table as a PDF
     Wait Until Element Is Visible    id:sales-results
     ${sales_results_html}=    Get Element Attribute    id:sales-results    outerHTML
     Html To Pdf    ${sales_results_html}    ${OUTPUT_DIR}${/}sales_results.pdf
+
+Send email
+    ${secret}=    Get Secret    robotsparebin
+    Authorize    account=${secret}[account]    password=${secret}[password]
+    ${CurrentDate}    Get Current Date
+    Send Message    sender=${secret}[account]
+    ...    recipients=greufabessauddu-1760@yopmail.com
+    ...    subject=ZHIYUAN SUN RPA ${CurrentDate}
+    ...    body=This is the body of the email.
+    ...    attachments=${OUTPUT_DIR}${/}sales_results.pdf
 
 Log out and close the browser
     Click Button    Log out
